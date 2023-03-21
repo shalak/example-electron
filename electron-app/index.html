@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electron App</title>
+    <style>
+    body { font-family: Arial, sans-serif; }
+    input { margin-right: 10px; }
+  </style>
+</head>
+<body>
+<h1 id="displayText">Hello World!</h1>
+<input id="inputText" type="text" placeholder="Enter text" />
+<button id="submitButton">Submit</button>
+
+<script>
+    const { ipcRenderer } = require('electron');
+
+    document.getElementById('submitButton').addEventListener('click', () => {
+      const inputText = document.getElementById('inputText').value;
+      ipcRenderer.send('submitText', inputText);
+    });
+
+    ipcRenderer.on('updateDisplayText', (_, text) => {
+      document.getElementById('displayText').textContent = text;
+    });
+  </script>
+</body>
+</html>
